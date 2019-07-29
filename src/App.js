@@ -1,26 +1,27 @@
 import React from "react";
+import { createStore } from 'redux'
+import todoApp from './reducers'
+
 import "./App.css";
 import Todo from "./Todo";
+
+const store = createStore(todoApp)
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { todos: [] };
 
-    this.addTodo = this.addTodo.bind(this);
-  }
-
-  addTodo(word) {
-    let id = 0;
-    this.setState({ todos: [...this.state.todos, { id, word }] });
-    ++id;
+    this.state = {todos: []};
+    store.subscribe(() => {
+      this.setState(store.getState())
+    });
   }
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <Todo todos={this.state.todos} addTodo={this.addTodo} />
+          <Todo store={store} todos={this.state.todos}/>
         </header>
       </div>
     );

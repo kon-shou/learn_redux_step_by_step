@@ -1,6 +1,8 @@
 import React from "react";
 
-const Todo = ({ todos, addTodo }) => {
+import { addTodo } from "./actions";
+
+const Todo = ({ store, todos }) => {
   let input;
 
   return (
@@ -11,7 +13,7 @@ const Todo = ({ todos, addTodo }) => {
           if (!input.value.trim()) {
             return;
           }
-          addTodo(input.value);
+          store.dispatch(addTodo(input.value))
           input.value = "";
         }}
       >
@@ -19,7 +21,7 @@ const Todo = ({ todos, addTodo }) => {
         <button type="submit">Add Todo</button>
       </form>
       {todos.map((todo, index) => (
-        <p key={index}>{todo.word}</p>
+        <p key={index}>{todo.text}</p>
       ))}
     </div>
   );
