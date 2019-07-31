@@ -1,10 +1,13 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { addTodo } from "./actions";
 
-const Todo = props => {
-  const { todos, addTodo } = props;
+const Todo = () => {
+  const dispatch = useDispatch()
+
+  const todos = useSelector(state => state.todos)
+  const handleAddTodo = (word) => dispatch(addTodo(word))
 
   let input;
 
@@ -16,7 +19,7 @@ const Todo = props => {
           if (!input.value.trim()) {
             return;
           }
-          addTodo(input.value);
+          handleAddTodo(input.value);
           input.value = "";
         }}
       >
@@ -30,11 +33,4 @@ const Todo = props => {
   );
 };
 
-export default connect(
-  state => ({
-    todos: state.todos
-  }),
-  dispatch => ({
-    addTodo: text => dispatch(addTodo(text))
-  })
-)(Todo);
+export default Todo;
