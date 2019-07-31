@@ -4,25 +4,19 @@ import todoApp from './reducers'
 
 import "./App.css";
 import Todo from "./Todo";
+import Provider from "react-redux/es/components/Provider";
 
 const store = createStore(todoApp)
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {todos: []};
-    store.subscribe(() => {
-      this.setState(store.getState())
-    });
-  }
-
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <Todo store={store} todos={this.state.todos}/>
-        </header>
+        <Provider store={store}>
+          <header className="App-header">
+            <Todo />
+          </header>
+        </Provider>
       </div>
     );
   }

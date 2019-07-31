@@ -1,8 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import { addTodo } from "./actions";
 
-const Todo = ({ store, todos }) => {
+const Todo = props => {
+  const { todos, addTodo } = props;
+
   let input;
 
   return (
@@ -13,7 +16,7 @@ const Todo = ({ store, todos }) => {
           if (!input.value.trim()) {
             return;
           }
-          store.dispatch(addTodo(input.value))
+          addTodo(input.value);
           input.value = "";
         }}
       >
@@ -27,4 +30,11 @@ const Todo = ({ store, todos }) => {
   );
 };
 
-export default Todo;
+export default connect(
+  state => ({
+    todos: state.todos
+  }),
+  dispatch => ({
+    addTodo: text => dispatch(addTodo(text))
+  })
+)(Todo);
